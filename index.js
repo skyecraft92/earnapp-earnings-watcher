@@ -60,6 +60,7 @@ const run = async () => {
     while (true) {
         if (first) {
             await getDevices();
+            first = false
         }
         const earnings = await getEarnings();
         let fields = [];
