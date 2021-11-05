@@ -35,8 +35,8 @@ const getEarnings = async () => {
         if (device.total_bw > 0.0) {
             earnings.push({
                 name: device.uuid,
-                usage: `+ ${bytesToSize(device.bw - (old[i].bw ?? 0))}`,
-                amount: `+ ${(device.earned - (old[i].earned ?? 0)).toFixed(2)}$`,
+                usage: `+ ${bytesToSize(device.bw - (old[i]?.bw ?? 0))}`,
+                amount: `+ ${(device.earned - (old[i]?.earned ?? 0)).toFixed(2)}$`,
             });
         }
     });
