@@ -1,28 +1,18 @@
 const fs = require("fs");
 const { Client } = require("earnapp.js");
 const { Webhook } = require("simple-discord-webhooks");
+const config = require("./config.js");
 
 const client = new Client();
-const postman = new Webhook("WEBHOOK URL");
+const postman = new Webhook(config.discordWebhookURL);
 
 client.login({
-    authMethod: "google",
-    oauthRefreshToken: "COOKIE", //see https://github.com/LockBlock-dev/earnapp.js#how-to-login-with-cookies
+    authMethod: config.authMethod,
+    oauthRefreshToken: config.oauthRefreshToken,
 });
-
-let first = true;
 
 const delay = async (ms) => {
     return await new Promise((resolve) => setTimeout(resolve, ms));
-};
-
-const getName = (uuid) => {
-    switch (uuid) {
-        case "sdk-XXX-XXX":
-            return "cool pc";
-        default:
-            return uuid;
-    }
 };
 
 const bytesToSize = (bytes) => {
@@ -33,50 +23,48 @@ const bytesToSize = (bytes) => {
     return `${(bytes / 1024 ** i).toFixed(2)} ${sizes[i]}`;
 };
 
-const getDevices = async () => {
-    const devices = await client.devices();
-    fs.writeFileSync("./old.json", JSON.stringify(devices, null, 1), "utf8");
-    return devices;
+const getOld = () => {
+    return JSON.parse(fs.readFileSync("./old.json", "utf8"));
 };
 
 const getEarnings = async () => {
     const earnings = [];
-    const old = JSON.parse(fs.readFileSync("./old.json", "utf8"));
-    const data = await getDevices();
+    const old = getOld();
+    const data = await await client.devices();
     data.forEach((device, i) => {
         if (device.total_bw > 0.0) {
             earnings.push({
-                name: getName(device.uuid),
-                usage: `+ ${bytesToSize(device.bw - old[i].bw)}`,
-                amount: `+ ${(device.earned - old[i].earned).toFixed(2)}$`,
+                name: device.uuid,
+                usage: `+ ${bytesToSize(device.bw - (old[i].bw ?? 0))}`,
+                amount: `+ ${(device.earned - (old[i].earned ?? 0)).toFixed(2)}$`,
             });
         }
     });
-
+    fs.writeFileSync("./old.json", JSON.stringify(data, null, 1), "utf8");
     return earnings;
 };
 
 const run = async () => {
     while (true) {
-        if (first) {
-            await getDevices();
-            first = false
-        }
-        const earnings = await getEarnings();
-        let fields = [];
-        earnings.forEach((e) => {
-            fields.push({
-                name: e.name,
-                value: `${e.usage} | ${e.amount}`,
+        let date = new Date();
+        if ([...Array(config.delay + 1).keys()].includes(date.getMinutes())) {
+            await delay(1000 * 30);
+            const earnings = await getEarnings();
+            let fields = [];
+            earnings.forEach((e) => {
+                fields.push({
+                    name: e.name,
+                    value: `${e.usage} | ${e.amount}`,
+                });
             });
-        });
-        postman.send("", [
-            {
-                title: "EarnApp gains report",
-                fields: fields,
-            },
-        ]);
-        await delay(1000 * 60 * 60);
+            postman.send("", [
+                {
+                    title: "EarnApp gains report",
+                    fields: fields,
+                },
+            ]);
+        }
+        await delay(1000 * 60 * config.delay);
     }
 };
 
