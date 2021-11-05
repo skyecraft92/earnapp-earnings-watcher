@@ -1,6 +1,6 @@
 # EarnApp earnings watcher
 
-[![axios](https://img.shields.io/github/package-json/dependency-version/LockBlock-dev/earnapp-earnings-watcher/axios)](https://www.npmjs.com/package/axios) [![earnapp-earnings-watcher](https://img.shields.io/github/package-json/dependency-version/LockBlock-dev/earnapp-earnings-watcher/earnapp-earnings-watcher)](https://www.npmjs.com/package/earnapp-earnings-watcher) [![simple-discord-webhooks](https://img.shields.io/github/package-json/dependency-version/LockBlock-dev/earnapp-earnings-watcher/simple-discord-webhooks)](https://www.npmjs.com/package/simple-discord-webhooks)
+[![axios](https://img.shields.io/github/package-json/dependency-version/LockBlock-dev/earnapp-earnings-watcher/axios)](https://www.npmjs.com/package/axios) [![earnapp-earnings-watcher](https://img.shields.io/github/package-json/dependency-version/LockBlock-dev/earnapp-earnings-watcher/earnapp.js)](https://www.npmjs.com/package/earnapp.js) [![simple-discord-webhooks](https://img.shields.io/github/package-json/dependency-version/LockBlock-dev/earnapp-earnings-watcher/simple-discord-webhooks)](https://www.npmjs.com/package/simple-discord-webhooks)
 
 [![GitHub stars](https://img.shields.io/github/stars/LockBlock-dev/earnapp-earnings-watcher.svg)](https://github.com/LockBlock-dev/earnapp-earnings-watcher/stargazers)
 
