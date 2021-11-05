@@ -15,7 +15,7 @@ Bugs can occur, this is an unofficial use of the EarnApp API.
 -   Install [NodeJS](https://nodejs.org).
 -   Download or clone the project.
 -   Go to the `earnapp-earnings-watcher` folder and run `npm install`.
--   In the [config.js](./index.js), you need to edit the WEBHOOL URL and the COOKIE:
+-   In the [config.js](./index.js), you need to edit the WEBHOOK URL and the COOKIE:
 
 ```js
 discordWebhookURL: "WEBHOOK URL", //Discord WebHook URL
